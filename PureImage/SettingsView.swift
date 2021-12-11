@@ -25,12 +25,21 @@ struct SettingsView: View {
     @State private var useReferer: Bool
     @State private var minImageCount: String
     
+    var textFieldBgColor: Color {
+        currentMode == .light ? Color.white : Color.black
+    }
+    
+    var inputBgColor: Color {
+        currentMode == .light ? Color(.sRGB, red: 0.9, green: 0.9, blue: 0.9, opacity: 1.0) : Color(.sRGB, red: 0.1, green: 0.1, blue: 0.1, opacity: 1.0)
+    }
+    
+    @Environment(\.colorScheme) var currentMode
     init() {
-        self.minImageSize = SettingStore.shared.minImageSize
-        self.nextPageName = SettingStore.shared.nextPageName
-        self.lastPageName = SettingStore.shared.lastPageName
-        self.useReferer = SettingStore.shared.useReferer
-        self.minImageCount = "\(SettingStore.shared.minImageCount)"
+        _minImageSize = State(initialValue: SettingStore.shared.minImageSize)
+        _nextPageName = State(initialValue: SettingStore.shared.nextPageName)
+        _lastPageName = State(initialValue: SettingStore.shared.lastPageName)
+        _useReferer = State(initialValue: SettingStore.shared.useReferer)
+        _minImageCount = State(initialValue: "\(SettingStore.shared.minImageCount)")
     }
     
     var body: some View {
@@ -47,11 +56,11 @@ struct SettingsView: View {
                         .cornerRadius(8)
                         .padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
                     Spacer()
-                }.background(Color.white)
+                }.background(textFieldBgColor)
                     .cornerRadius(4.0)
             }
             .padding()
-            .background(Color(.sRGB, red: 0.9, green: 0.9, blue: 0.9, opacity: 1.0))
+            .background(inputBgColor)
             
             VStack {
                 HStack {
@@ -65,11 +74,11 @@ struct SettingsView: View {
                         .cornerRadius(8)
                         .padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
                     Spacer()
-                }.background(Color.white)
+                }.background(textFieldBgColor)
                     .cornerRadius(4.0)
             }
             .padding()
-            .background(Color(.sRGB, red: 0.9, green: 0.9, blue: 0.9, opacity: 1.0))
+            .background(inputBgColor)
             
             VStack {
                 HStack {
@@ -83,11 +92,11 @@ struct SettingsView: View {
                         .cornerRadius(8)
                         .padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
                     Spacer()
-                }.background(Color.white)
+                }.background(textFieldBgColor)
                     .cornerRadius(4.0)
             }
             .padding()
-            .background(Color(.sRGB, red: 0.9, green: 0.9, blue: 0.9, opacity: 1.0))
+            .background(inputBgColor)
             
             VStack {
                 HStack {
@@ -101,15 +110,15 @@ struct SettingsView: View {
                         .cornerRadius(8)
                         .padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
                     Spacer()
-                }.background(Color.white)
+                }.background(textFieldBgColor)
                     .cornerRadius(4.0)
             }
             .padding()
-            .background(Color(.sRGB, red: 0.9, green: 0.9, blue: 0.9, opacity: 1.0))
+            .background(inputBgColor)
             
             Toggle("Add 'Referer' in HTTP Header", isOn: $useReferer)
             .padding()
-            .background(Color(.sRGB, red: 0.9, green: 0.9, blue: 0.9, opacity: 1.0))
+            .background(inputBgColor)
             
             Spacer()
         }
@@ -123,6 +132,6 @@ struct SettingsView: View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView()
+        SettingsView().preferredColorScheme(.dark)
     }
 }

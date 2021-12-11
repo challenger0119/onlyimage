@@ -76,7 +76,7 @@ struct ContentView: View {
             .onReceive(NotificationCenter.default.publisher(for: settingsMinImageSizeUpdated)) { _ in
                 self.imageSize = SettingStore.shared.floatImageSize
             }
-        }
+        }.navigationViewStyle(StackNavigationViewStyle())
     }
     
     static func makeLoadRequest(url: URL, useReferer: Bool) -> URLRequest {
