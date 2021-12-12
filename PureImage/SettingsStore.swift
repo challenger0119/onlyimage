@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 let settingsMinImageSizeUpdated: Notification.Name = Notification.Name("settingsNewValueUpdated")
+let settingsPageBtnLeftUpdated: Notification.Name = Notification.Name("settingsPageBtnLeftUpdated")
 
 let imageSize1KB: CGFloat = 1 * 1024
 
@@ -19,6 +20,7 @@ class SettingStore {
         static let lastPageName: String = "SettingStore_lastPageName"
         static let useReferer: String = "SettingStore_useReferer"
         static let minImageCount: String = "SettingStore_minImageCount"
+        static let pageBtnLeft: String = "SettingStore_pageBtnLeft"
     }
         
     static let shared = SettingStore()
@@ -69,5 +71,13 @@ class SettingStore {
             UserDefaults.standard.set(newValue, forKey: StoreKey.minImageCount)
         }
     }
-    
+    var pageBtnLeft: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: StoreKey.pageBtnLeft)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: StoreKey.pageBtnLeft)
+            NotificationCenter.default.post(name: settingsPageBtnLeftUpdated, object: nil)
+        }
+    }
 }

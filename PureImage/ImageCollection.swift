@@ -21,19 +21,7 @@ struct ImageCollection: View {
             }
         } else {
             HStack {
-                Text("""
-1. Input web URL
-2. Click 'Web' to open
-3. Click 'Boom!' to view images
-
-Change settings for:
-1. Filtering image with different size
-2. Show more image at one 'Boom'
-3. Customize next page name for the web URL
-4. Adding 'Referer' when image request need authorization
-
-'Clear' when need restart
-""").lineSpacing(8.0)
+                Text(I18N.usage()).lineSpacing(8.0)
                 Spacer()
             }.padding()
             

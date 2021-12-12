@@ -24,6 +24,7 @@ struct SettingsView: View {
     @State private var lastPageName: String
     @State private var useReferer: Bool
     @State private var minImageCount: String
+    @State private var pageBtnLeft: Bool
     
     var textFieldBgColor: Color {
         currentMode == .light ? Color.white : Color.black
@@ -33,24 +34,31 @@ struct SettingsView: View {
         currentMode == .light ? Color(.sRGB, red: 0.9, green: 0.9, blue: 0.9, opacity: 1.0) : Color(.sRGB, red: 0.1, green: 0.1, blue: 0.1, opacity: 1.0)
     }
     
+    var titleColor: Color {
+        currentMode == .light ? Color(.sRGB, red: 0.3, green: 0.3, blue: 0.3, opacity: 1.0) : Color(.sRGB, red: 0.7, green: 0.7, blue: 0.7, opacity: 1.0)
+    }
+    
     @Environment(\.colorScheme) var currentMode
+    
     init() {
         _minImageSize = State(initialValue: SettingStore.shared.minImageSize)
         _nextPageName = State(initialValue: SettingStore.shared.nextPageName)
         _lastPageName = State(initialValue: SettingStore.shared.lastPageName)
         _useReferer = State(initialValue: SettingStore.shared.useReferer)
         _minImageCount = State(initialValue: "\(SettingStore.shared.minImageCount)")
+        _pageBtnLeft = State(initialValue: SettingStore.shared.pageBtnLeft)
     }
     
     var body: some View {
         VStack {
             VStack {
                 HStack {
-                    Text("The minimum image size (KB)")
+                    Text(I18N.settings_minImageSize())
+                        .foregroundColor(titleColor)
                     Spacer()
                 }
                 HStack {
-                    TextField("Input minimum image size", text: $minImageSize, onCommit: {
+                    TextField("", text: $minImageSize, onCommit: {
                         SettingStore.shared.minImageSize = self.minImageSize
                     })
                         .cornerRadius(8)
@@ -64,11 +72,12 @@ struct SettingsView: View {
             
             VStack {
                 HStack {
-                    Text("The minimum image count")
+                    Text(I18N.settings_minImageCount())
+                        .foregroundColor(titleColor)
                     Spacer()
                 }
                 HStack {
-                    TextField("Input minimum image count", text: $minImageCount, onCommit: {
+                    TextField("", text: $minImageCount, onCommit: {
                         SettingStore.shared.minImageCount = Int(minImageCount) ?? 0
                     })
                         .cornerRadius(8)
@@ -82,11 +91,12 @@ struct SettingsView: View {
             
             VStack {
                 HStack {
-                    Text("Next page name in target HTML")
+                    Text(I18N.settings_nextPageName())
+                        .foregroundColor(titleColor)
                     Spacer()
                 }
                 HStack {
-                    TextField("Input next page name", text: $nextPageName, onCommit: {
+                    TextField("", text: $nextPageName, onCommit: {
                         SettingStore.shared.nextPageName = self.nextPageName
                     })
                         .cornerRadius(8)
@@ -100,7 +110,8 @@ struct SettingsView: View {
             
             VStack {
                 HStack {
-                    Text("Last page name in target HTML")
+                    Text(I18N.settings_lastPageName())
+                        .foregroundColor(titleColor)
                     Spacer()
                 }
                 HStack {
@@ -116,7 +127,13 @@ struct SettingsView: View {
             .padding()
             .background(inputBgColor)
             
-            Toggle("Add 'Referer' in HTTP Header", isOn: $useReferer)
+            Toggle(I18N.settings_imageRequestNeedAuth(), isOn: $useReferer)
+                .foregroundColor(titleColor)
+            .padding()
+            .background(inputBgColor)
+            
+            Toggle(I18N.settings_pageBtnLeft(), isOn: $pageBtnLeft)
+                .foregroundColor(titleColor)
             .padding()
             .background(inputBgColor)
             
@@ -127,11 +144,15 @@ struct SettingsView: View {
         .onChange(of: useReferer, perform: { newValue in
             SettingStore.shared.useReferer = newValue
         })
+        .onChange(of: pageBtnLeft) { newValue in
+            SettingStore.shared.pageBtnLeft = newValue
+        }
     }
 }
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
+        SettingsView().preferredColorScheme(.light)
         SettingsView().preferredColorScheme(.dark)
     }
 }
