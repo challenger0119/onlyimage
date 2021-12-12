@@ -9,10 +9,9 @@ import Foundation
 import SwiftUI
 
 struct LoadingButton<T: View>: View {
-    
+    @Binding var isLoading: Bool
     let action: () -> Void
     let label: () -> T
-    @Binding var isLoading: Bool
     
     var body: some View {
         Button(action: action) {
@@ -28,11 +27,13 @@ struct LoadingButton<T: View>: View {
 struct TextLoadingButton: View {
     @Binding var isLoading: Bool
     let content: String
+    let font: Font = Font.system(size: 14)
     let action: () -> Void
     
     var body: some View {
-        LoadingButton(action: action, label: {
+        LoadingButton(isLoading: $isLoading, action: action, label: {
             Text(content)
-        }, isLoading: $isLoading)
+                .font(font)
+        })
     }
 }

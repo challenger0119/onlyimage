@@ -101,9 +101,11 @@ struct ContentView: View {
                     
                     Button(urlBtnStatus.title(), action: urlAction)
                         .buttonStyle(PIButtonStyle())
+                        .font(.system(size: 14))
                     if urlBtnStatus == .reset {
                         Button(boomBtnStatus.title(), action: boom)
                             .buttonStyle(PIButtonStyle())
+                            .font(.system(size: 14))
                     }
                 }
                 if urlBtnStatus == .reset && boomBtnStatus == .boom {
@@ -127,6 +129,7 @@ struct ContentView: View {
                     
                     NavigationLink(I18N.s("设置"), destination: NavigationLazyView(SettingsView()))
                         .buttonStyle(PIButtonStyle())
+                        .font(.system(size: 14))
 
                     if !pageBtnLeft {
                         Spacer()
